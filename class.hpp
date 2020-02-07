@@ -39,11 +39,74 @@ class Shape{
     std::string name;
   public:
     void set_name(std::string);
-    void print_name(std::string);
-    int find_width(std::string str);
-    int find_height(std::string str);
+    std::string print_name(std::string);
+    int find_width(std::string);
+    int find_height(std::string);
     int calculate_area(int, int);
 };
+
+void Shape::set_name(std::string str){
+  name = str;
+}
+
+std::string Shape::print_name(std::string str){
+  std::istringstream iss(str);
+  std::string name;
+  std::getline(iss, name, ' ');
+  std::cout << name << ' ';
+  return name;
+}
+
+int Shape::find_width(std::string str){
+  std::vector<std::string> array;
+  std::vector<int> v;
+  std::istringstream iss(str);
+  std::string width;
+  int max,min;
+  while (std::getline(iss, width, ' ')) {
+    array.push_back(width);
+  };
+  for(unsigned i=2; i<array.size(); ++i){
+    if(i%2==0){
+      int x = std::stoi(array.at(i),nullptr,10);
+      v.push_back(x);
+    }
+  };
+  max = *std::max_element(v.begin(),v.end());
+  min = *std::min_element(v.begin(),v.end());
+  width = std::to_string(max-min);
+  cout << array.at(1) <<" width is: " << width << ", ";
+  return max-min;
+}
+
+int Shape::find_height(std::string str){
+  std::vector<std::string> array;
+  std::vector<int> v;
+  std::istringstream iss(str);
+  std::string height;
+  int max,min;
+  while (std::getline(iss, height, ' ')) {
+    array.push_back(height);
+  };
+  for(unsigned i=2; i<array.size(); ++i){
+    if(i%2!=0){
+      int x = std::stoi(array.at(i),nullptr,10);
+      v.push_back(x);
+    }
+  };
+  max = *std::max_element(v.begin(),v.end());
+  min = *std::min_element(v.begin(),v.end());
+  height = std::to_string(max-min);
+  cout << "height is: " << height << ", ";
+  return max-min;
+}
+
+int Shape::calculate_area(int width, int height){
+  std::string area;
+  area = to_string(width*height);
+  cout << "area is: " << area << '\n';
+  return width*height;
+}
 
 class Line : public Shape{
   Point a;
@@ -82,6 +145,10 @@ public:
   void set_polyline_values(std::vector<Point>);
 };
 
+void Polyline::set_polyline_values(std::vector<Point> v){
+  printf("Undefined\n");
+}
+
 class Circle : public Shape{
   Point centre;
   int radius;
@@ -92,8 +159,4 @@ public:
 void Circle::set_circle_values(int x1, int y1, int r){
   centre.x=x1, centre.y=y1;
   radius=r;
-}
-
-void Shape::set_name(std::string str){
-  name = str;
 }
